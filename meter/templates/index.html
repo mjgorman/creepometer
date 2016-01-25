@@ -1,0 +1,55 @@
+<head>
+<meta http-equiv="refresh" content="15">
+<title>Welcome to the Creep-O-Meter!</title>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Person');
+        data.addColumn('number', 'Creepyness');
+        data.addRows([
+{% for name,creepy in nominees.iteritems %}
+                     ['{{ name }}', {{ creepy }}],
+{% endfor %}
+        ]);
+
+        // Set chart options
+        var options = {'title':'The Creepy Index',
+                       'legend': { position: "none" },
+                       'hAxis' : { ticks: [0,1,2,3,4,5,6,7,8,9,10], maxValue: 10 },
+                       'width':768,
+                       'height':100*{{nominees|length}}};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+
+</head>
+<body>
+<h1>Welcome to the Creep-O-Meter!</h1>
+<h2>Current Nominees:</h2>
+<div id="chart_div"></div>
+
+
+<form action="/nominate/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Nominate">
+</form>
+</body>
