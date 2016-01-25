@@ -28,13 +28,11 @@
 
         // Set chart options
         var options = {'title':'The Creepy Index',
-                       'legend': { position: "none" },
-                       'hAxis' : { ticks: [0,1,2,3,4,5,6,7,8,9,10], maxValue: 10 },
-                       'width':768,
-                       'height':100*{{nominees|length}}};
+                       'height':50*{{nominees|length}}
+};
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
     </script>
