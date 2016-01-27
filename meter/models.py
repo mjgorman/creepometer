@@ -5,8 +5,8 @@ from redis import Redis
 
 def nominate_post(name):
     con = Redis('localhost')
-    con.sadd('coworkers', name)
-    add_creepy(name.lower)
+    con.sadd('coworkers', name.title())
+    add_creepy(name.lower())
 
 def list_nominees():
     con = Redis('localhost') 
