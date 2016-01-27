@@ -6,7 +6,7 @@ from redis import Redis
 def nominate_post(name):
     con = Redis('localhost')
     con.sadd('coworkers', name)
-    add_creepy(name)
+    add_creepy(name.lower)
 
 def list_nominees():
     con = Redis('localhost') 
@@ -14,7 +14,7 @@ def list_nominees():
 
 def get_creepy(name):
     con = Redis('localhost') 
-    creepy = con.get('coworker{0}'.format(name))
+    creepy = con.get('coworker{0}'.format(name.lower()))
     if creepy != None:
         return creepy
     else:
@@ -22,8 +22,8 @@ def get_creepy(name):
 
 def add_creepy(name):
     con = Redis('localhost') 
-    con.incr('coworker{0}'.format(name))
+    con.incr('coworker{0}'.format(name.lower()))
 
 def reduce_creepy(name):
     con = Redis('localhost') 
-    con.decr('coworker{0}'.format(name))
+    con.decr('coworker{0}'.format(name.lower()))
